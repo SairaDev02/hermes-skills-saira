@@ -68,7 +68,7 @@ These are defined as discrete, sequential units of work — each with its input,
 **Feedback paths:**
 - If a module won't decompose into single-context-window tasks → feed back to Architect (boundary is wrong)
 - If acceptance criteria can't be mapped cleanly → feed back to Requirements Engineer (requirements aren't atomic enough)
-- If Pi reports LLM output doesn't match expectations → revise the task spec (gap in context or output contract)
+- If you report that the LLM output doesn't match expectations → revise the task spec (gap in context or output contract)
 
 ---
 
