@@ -2,8 +2,6 @@
 
 These are defined as discrete, sequential units of work — each with its input, output, and dependency on other roles. Ordered by lifecycle position. Feedback paths noted where they exist.
 
-> **Documentation-only principle:** Hermes produces specification and planning documents only — SRS, RTM, architecture docs, ADRs, interface contracts, task manifests, test specs, test execution plans, CI/CD specs, deployment specs, monitoring specs, rollback procedure specs, bug reports, review verdicts, and release process docs. Hermes does not write executable code, test code, CI/CD config files, deployment manifests, or scripts. All implementation and execution is delegated to the coding harness (Pi). Pseudocode and diagramming languages (Mermaid, PlantUML) are permitted within specification documents. Each role's skill enforces this constraint individually.
-
 ---
 
 ## Role 1: Requirements Engineer
@@ -86,12 +84,12 @@ These are defined as discrete, sequential units of work — each with its input,
 | 2 | **Derive test cases from acceptance criteria** — each acceptance criterion → at least one positive test and one negative test | Test case list | Traceability: each test case maps to an SRS requirement ID via the RTM |
 | 3 | **Write test specifications** — unit tests, integration tests, edge cases, boundary conditions, negative tests | Test specification document | Unit tests against output contracts; integration tests against interface contracts |
 | 4 | **Define test data and fixtures** — inputs, expected outputs, mock/stub configurations | Test fixtures | Edge cases: empty inputs, null values, max-length strings, concurrent access, timeout behavior |
-| 5 | **Specify test suite implementation** — produce test implementation specs with pseudocode, assertion specs, and file structure for Pi to implement | Test implementation specification | Pseudocode, not executable code — Pi implements as executable tests (TDD RED phase) |
-| 6 | **Define test execution plan** — specify execution scope, order, environment, expected results, and triage criteria for Pi to follow | Test execution plan | Pi executes tests and produces results report |
-| 7 | **Specify exploratory testing plan** — define exploration scope, sessions, and finding documentation format for Pi's testers | Exploratory testing plan | LLM code often passes unit tests but fails on integration, state management, and unexpected input combinations |
+| 5 | **Write test suites** — implement the test specifications as executable tests (TDD: RED phase) | Test code | In TDD these run and fail before implementation exists; after Pi delivers implementation, they should pass |
+| 6 | **Run tests against completed implementation** — execute the test suite on Pi's output | Test results report | Document failures with: failing test, expected vs. actual, reproduction steps |
+| 7 | **Exploratory QA** — manually probe the system for issues tests didn't catch (dogfood approach) | Exploratory QA report | LLM code often passes unit tests but fails on integration, state management, and unexpected input combinations |
 | 8 | **Produce bug reports** — for each defect: reproduction steps, severity, affected requirement ID, suggested fix area | Bug reports | "Suggested fix area" not "suggested fix" — the tester identifies *where* the problem is, not how to fix it (that's the Task Engineer's job to re-dispatch) |
 | 9 | **Coverage gap analysis** — cross-reference RTM with test results to find requirements not covered by any passing test | Coverage gap report | A requirement with no passing test = unverified, regardless of whether the code "works" |
-| 10 | **Specify regression verification plan** — define fix verification, full suite re-execution, and over-fitting check criteria for Pi to follow | Regression verification plan | LLM fixes frequently introduce new bugs while fixing old ones — the fix optimized for the reported symptom, not the root cause |
+| 10 | **Regression verification** — after a fix is re-dispatched and delivered, re-run the full suite to confirm the fix didn't break anything | Regression test results | LLM fixes frequently introduce new bugs while fixing old ones — the fix optimized for the reported symptom, not the root cause |
 
 **Feedback path:** Bug reports → Task Engineer (re-dispatch with refined context/constraints) → new implementation → Tester re-runs. Coverage gaps → Task Engineer (missing tasks) or Requirements Engineer (untestable requirements).
 
@@ -123,16 +121,16 @@ These are defined as discrete, sequential units of work — each with its input,
 ### Role 6: DevOps / Release Engineer *(situational)*
 
 **Input:** Approved code from Reviewer, architecture deployment diagrams
-**Output:** CI/CD specifications, deployment specifications, release process docs
+**Output:** CI/CD pipelines, deployment automation, release artifacts
 
 | # | Task | Output Artifact | Notes |
 | --- | ------ | ----------------- | ------- |
-| 1 | **Specify CI pipeline** — build, test, lint, security scan on every push/merge | CI pipeline specification | Pi implements as CI config — this is the automated guardrail that catches LLM regressions without human review |
-| 2 | **Specify deployment pipeline** — staging → production with gates | Deployment pipeline specification | Gate on: all tests pass, security scan clean, review approved. Pi implements as deployment config |
-| 3 | **Specify environment management** — dev, staging, production configs, secrets, variables | Environment specification | Secrets in `.env` / vault, never in config — mirrors Hermes's own invariant. Pi implements as config files |
+| 1 | **Define CI pipeline** — build, test, lint, security scan on every push/merge | CI configuration (GitHub Actions, etc.) | This is the automated guardrail that catches LLM regressions without human review |
+| 2 | **Set up deployment pipeline** — staging → production with gates | Deployment config | Gate on: all tests pass, security scan clean, review approved |
+| 3 | **Environment management** — dev, staging, production configs, secrets, variables | Environment configs | Secrets in `.env` / vault, never in config — mirrors Hermes's own invariant |
 | 4 | **Release process definition** — versioning scheme, changelog generation, release notes | Release process doc | Automate changelog from commit messages / PR titles |
-| 5 | **Specify monitoring and alerting** — health checks, error tracking, performance metrics | Monitoring specification | LLM-generated code may have subtle performance issues that only surface under load. Pi implements as monitoring config |
-| 6 | **Specify rollback procedure** — one-command revert to previous known-good state | Rollback procedure specification | When an LLM-introduced regression reaches production, rollback speed is the damage limiter. Pi implements as rollback script |
+| 5 | **Monitoring and alerting** — health checks, error tracking, performance metrics | Monitoring config | LLM-generated code may have subtle performance issues that only surface under load |
+| 6 | **Rollback automation** — one-command revert to previous known-good state | Rollback script/procedure | When an LLM-introduced regression reaches production, rollback speed is the damage limiter |
 
 ---
 
