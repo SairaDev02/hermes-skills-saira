@@ -16,6 +16,7 @@ Hermes produces specification and planning documents only — SRS, RTM, architec
 | 4 | [qa-engineer](software-development/qa-engineer/SKILL.md) | Tester / QA Engineer | Verification | Spec-driven test planning, test case derivation (ISTQB), test implementation specification (pseudocode), execution plans, exploratory testing plans, bug reporting, coverage gap analysis |
 | 5 | [code-reviewer](software-development/code-reviewer/SKILL.md) | Code Reviewer | Gate | Requirements compliance, architecture compliance, security scan (OWASP), style checks, complexity assessment (McCabe, Sonar), edge case gap identification, verdict (approve/request changes/reject) |
 | 6 | [devops-release-engineer](software-development/devops-release-engineer/SKILL.md) | DevOps / Release Engineer | Release | CI/CD pipeline specifications, deployment specifications, environment specifications, release process docs, monitoring specifications, rollback procedure specifications |
+| 7 | [rapid-application-development](software-development/rapid-application-development/SKILL.md) | Rapid Application Development Facilitator | Method / Iteration | RAD fit decisions, lightweight backlogs, prototype cycles, user feedback, iteration coordination, continuous verification, and cutover readiness |
 
 ## Lifecycle Flow
 
@@ -57,6 +58,9 @@ software-development/
     SKILL.md
     references/
     templates/
+  rapid-application-development/
+    SKILL.md
+    references/
 Roles.md
 ```
 
