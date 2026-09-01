@@ -16,7 +16,7 @@ The Requirements, Architecture, Task Engineering, QA, Code Review, and DevOps/Re
 | 4 | [qa-engineer](software-development/qa-engineer/SKILL.md) | Tester / QA Engineer | Verification | Test, fixture, execution, exploratory, defect, coverage, and regression documents only |
 | 5 | [code-reviewer](software-development/code-reviewer/SKILL.md) | Code Reviewer | Gate | Review evidence, findings, comments, and verdict documents only |
 | 6 | [devops-release-engineer](software-development/devops-release-engineer/SKILL.md) | DevOps / Release Engineer | Release | CI/CD, environment, release, monitoring, and rollback specifications only |
-| 7 | rapid-application-development *(separate role branch/worktree)* | RAD Engineer | Cross-cutting | Separate RAD lifecycle role; its own skill defines its operating boundary |
+| 7 | [rapid-application-development](software-development/rapid-application-development/SKILL.md) | RAD Engineer | Cross-cutting | Separate RAD lifecycle role; its own skill defines its operating boundary |
 
 ## Lifecycle Flow
 

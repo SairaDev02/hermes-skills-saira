@@ -134,7 +134,35 @@ These are defined as discrete, sequential units of work — each with its input,
 
 ---
 
+### Role 7: Rapid Application Development Facilitator *(situational / cross-cutting)*
+
+**Input:** Problem statement, business goals, representative users, constraints, and the relevant outputs from Requirements, Architecture, Task Engineering, QA, Review, and Release
+**Output:** RAD charter, lightweight backlog and roadmap, stakeholder/feedback protocol, prototype and iteration records, verification reports, cutover readiness package, and post-cutover learning artifacts
+**Feeds into:** All lifecycle roles; the role coordinates RAD iterations rather than replacing the specialist roles
+
+| # | Task | Output Artifact | Notes |
+| --- | ------ | ----------------- | ------- |
+| 1 | **Assess RAD fit and establish the charter** — evaluate user availability, modularity, uncertainty, team capability, technology familiarity, time pressure, and assurance needs | RAD charter and feasibility decision | Stop or add controls when user access, modularity, or assurance needs make RAD unsuitable |
+| 2 | **Create lightweight requirements and the iteration backlog** — define the problem, users, outcomes, initial product slice, priorities, assumptions, and timeboxed iteration boundaries | Backlog, iteration roadmap, assumptions register | Planning is intentionally lightweight, not absent; route binding requirements to Requirements Engineer |
+| 3 | **Establish the collaborative feedback system** — assign responsibilities, define review cadence, decision rights, evidence capture, and change rules | Stakeholder register, feedback protocol, decision log | Feedback must be traceable from observation to disposition |
+| 4 | **Run user design and prototype cycles** — specify prototypes, conduct representative-user sessions, and convert evidence into backlog decisions | Prototype specification and feedback report | Label prototype fidelity and whether it is disposable or intended to evolve into production |
+| 5 | **Coordinate rapid construction iterations** — define coherent feature slices, prepare bounded dispatch inputs, coordinate integration checkpoints, and control scope | Iteration plan, dispatch inputs, integration checkpoint record | Parallel work requires explicit interfaces, ownership, and integration checks |
+| 6 | **Perform continuous verification and feedback** — derive verification scope, review increments, evaluate user outcomes, triage defects, and revise the backlog | Verification report, defect dispositions, revised backlog | Testing and feedback occur during construction, not only at the end |
+| 7 | **Prepare and govern cutover** — specify readiness, UAT, training, migration, deployment, monitoring, rollback, and go/no-go decision | Cutover readiness checklist, go/no-go record, cutover report | DevOps / Release Engineer implements deployment and rollback specifications |
+| 8 | **Capture post-cutover learning and sustain the product** — measure outcomes, run a retrospective, reprioritize improvements, and complete the maintenance handoff | Post-cutover review, improvement backlog, handoff record | Decide whether to continue RAD or transition to a more structured lifecycle |
+
+**Feedback paths:**
+- Prototype evidence that changes a binding requirement → Requirements Engineer as a structured change request.
+- Boundary, quality, or integration findings → Architect as an architecture feedback record.
+- Oversized or underspecified iteration slices → Task Engineer as a re-dispatch request.
+- New accepted behavior or coverage gaps → Tester / QA Engineer as a test-impact record.
+- Cutover-ready increment → DevOps / Release Engineer as a release input package.
+- Downstream findings → RAD decision log and backlog; no feedback remains informal.
+
+---
+
 ## Cross-Role Feedback Map
+
 
 ```text
 Requirements Engineer ─────────────────────────────────────────┐
@@ -157,6 +185,10 @@ Requirements Engineer ───────────────────�
     [Approve] → DevOps → Release
     [Request changes] → Task Engineer (refine spec → Pi re-dispatch)
     [Reject] → Architect (re-design)
+
+RAD Facilitator ──► Requirements / Architect / Task Engineer / Tester / DevOps
+       ▲                         │
+       └────── iteration evidence, decisions, and feedback ──────┘
 ```
 
 The core insight for skill development: **every feedback path in this diagram should be an explicit, documented artifact — not an implicit "go talk to the other role."** In LLM-based development, coordination is artifact flow. Each arrow should produce a structured document that the receiving role can act on without additional conversation.
