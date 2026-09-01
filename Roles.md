@@ -1,6 +1,6 @@
 # Task Definitions for Each Role
 
-These are defined as discrete, sequential units of work — each with its input, output, and dependency on other roles. Ordered by lifecycle position. Feedback paths noted where they exist.
+These are defined as discrete, sequential units of work — each with its input, output, and dependency on other roles. Ordered by lifecycle position. Feedback paths noted where they exist. Requirements, Architecture, Task Engineering, QA, Code Review, and DevOps/Release produce documentation only; the RAD Engineer is governed by its own separate operating boundary.
 
 ---
 
@@ -75,7 +75,7 @@ These are defined as discrete, sequential units of work — each with its input,
 ### Role 4: Tester / QA Engineer
 
 **Input:** SRS, RTM, task output contracts, completed implementation from Pi
-**Output:** Test suites, coverage reports, bug reports
+**Output:** Test plans, test specifications, execution plans, coverage reports, bug reports
 **Feeds into:** Code Reviewer, Task Engineer (for re-dispatch)
 
 | # | Task | Output Artifact | Notes |
@@ -84,8 +84,8 @@ These are defined as discrete, sequential units of work — each with its input,
 | 2 | **Derive test cases from acceptance criteria** — each acceptance criterion → at least one positive test and one negative test | Test case list | Traceability: each test case maps to an SRS requirement ID via the RTM |
 | 3 | **Write test specifications** — unit tests, integration tests, edge cases, boundary conditions, negative tests | Test specification document | Unit tests against output contracts; integration tests against interface contracts |
 | 4 | **Define test data and fixtures** — inputs, expected outputs, mock/stub configurations | Test fixtures | Edge cases: empty inputs, null values, max-length strings, concurrent access, timeout behavior |
-| 5 | **Write test suites** — implement the test specifications as executable tests (TDD: RED phase) | Test code | In TDD these run and fail before implementation exists; after Pi delivers implementation, they should pass |
-| 6 | **Run tests against completed implementation** — execute the test suite on Pi's output | Test results report | Document failures with: failing test, expected vs. actual, reproduction steps |
+| 5 | **Specify test suite implementation** — define test signatures, pseudocode, assertions, and file structure for Pi | Test implementation specification | The QA role documents the RED phase; Pi implements and executes the tests |
+| 6 | **Define test execution** — specify execution order, environment, expected results, triage, and reporting for Pi | Test execution plan | Pi executes the plan and returns evidence; QA does not claim execution without results |
 | 7 | **Exploratory QA** — manually probe the system for issues tests didn't catch (dogfood approach) | Exploratory QA report | LLM code often passes unit tests but fails on integration, state management, and unexpected input combinations |
 | 8 | **Produce bug reports** — for each defect: reproduction steps, severity, affected requirement ID, suggested fix area | Bug reports | "Suggested fix area" not "suggested fix" — the tester identifies *where* the problem is, not how to fix it (that's the Task Engineer's job to re-dispatch) |
 | 9 | **Coverage gap analysis** — cross-reference RTM with test results to find requirements not covered by any passing test | Coverage gap report | A requirement with no passing test = unverified, regardless of whether the code "works" |
@@ -121,16 +121,16 @@ These are defined as discrete, sequential units of work — each with its input,
 ### Role 6: DevOps / Release Engineer *(situational)*
 
 **Input:** Approved code from Reviewer, architecture deployment diagrams
-**Output:** CI/CD pipelines, deployment automation, release artifacts
+**Output:** CI/CD, deployment, environment, monitoring, rollback, and release specifications
 
 | # | Task | Output Artifact | Notes |
 | --- | ------ | ----------------- | ------- |
-| 1 | **Define CI pipeline** — build, test, lint, security scan on every push/merge | CI configuration (GitHub Actions, etc.) | This is the automated guardrail that catches LLM regressions without human review |
-| 2 | **Set up deployment pipeline** — staging → production with gates | Deployment config | Gate on: all tests pass, security scan clean, review approved |
-| 3 | **Environment management** — dev, staging, production configs, secrets, variables | Environment configs | Secrets in `.env` / vault, never in config — mirrors Hermes's own invariant |
+| 1 | **Specify CI pipeline** — document build, test, lint, and security stages for every push/merge | CI pipeline specification | Pi implements the specification as CI configuration |
+| 2 | **Specify deployment pipeline** — document staging → production flow and gates | Deployment specification | Gate on: all tests pass, security scan clean, review approved |
+| 3 | **Specify environment management** — document dev, staging, production variables, secrets, and policies | Environment specification | Secrets in a vault, never committed to config |
 | 4 | **Release process definition** — versioning scheme, changelog generation, release notes | Release process doc | Automate changelog from commit messages / PR titles |
-| 5 | **Monitoring and alerting** — health checks, error tracking, performance metrics | Monitoring config | LLM-generated code may have subtle performance issues that only surface under load |
-| 6 | **Rollback automation** — one-command revert to previous known-good state | Rollback script/procedure | When an LLM-introduced regression reaches production, rollback speed is the damage limiter |
+| 5 | **Specify monitoring and alerting** — document health checks, error tracking, and performance metrics | Monitoring specification | Pi implements monitoring controls from the specification |
+| 6 | **Specify rollback procedure** — document one-command revert requirements and verification | Rollback specification | Pi implements and drills the procedure |
 
 ---
 

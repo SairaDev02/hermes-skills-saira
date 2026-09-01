@@ -1,146 +1,98 @@
 ---
 name: software-requirements-engineering
-description: Guide the full software requirements engineering lifecycle.
-version: 0.1.0
+description: Guide requirements from discovery through traceability.
+version: 0.2.0
 author: FerdinandM, Hermes Agent
 license: MIT
 platforms: [linux, macos, windows]
 metadata:
   hermes:
     tags: [requirements, engineering, specification, elicitation, srs, traceability]
-    related_skills: [plan, test-driven-development]
+    related_skills: [software-architecture-design, qa-engineer]
 ---
 
 # Software Requirements Engineering Skill
 
-Guide the complete requirements engineering (RE) lifecycle: feasibility study, elicitation, specification, verification & validation, and management. Produces structured artifacts (SRS, RTM, requirements tables) grounded in IEEE/ISO/IEC 29148, INCOSE, and IREB quality characteristics. Does not implement code or design architecture — it produces the requirements that *drive* those activities.
+Produce implementation-neutral requirements artifacts from discovery through change control. This documentation-only role records feasibility, stakeholder needs, measurable requirements, validation evidence, and traceability; it does not design architecture, create implementation tasks, or write code.
 
 ## When to Use
 
-- User asks to write, review, or validate software requirements or an SRS
-- User wants to elicit, analyze, or specify requirements for a new system or feature
-- User needs a feasibility study, requirements traceability matrix, or prioritization
-- User wants to evaluate requirements quality (ambiguity, testability, completeness)
-- Don't use for: architecture design, implementation planning (use `plan` skill), or test case generation (use `test-driven-development` skill)
+- Create or revise an SRS, requirements table, RTM, feasibility report, or change record.
+- Elicit, classify, prioritize, validate, or quality-review requirements.
+- Analyze the impact of a proposed requirement change.
+- Don't use for: architecture, task manifests, test specifications, code, or executable configuration.
 
 ## Prerequisites
 
-- No external tools or API keys required — this skill is a structured methodology using Hermes tools
-- For diagram generation: the user may provide tools like PlantUML, Mermaid, or draw.io, but the skill produces text-based models (ER descriptions, DFD descriptions, data dictionaries) by default
+- Problem statement, business goals, constraints, and available stakeholder evidence.
+- Existing requirements and change history for incremental work.
+- Use `read_file`, `search_files`, `write_file`, and `patch` for project artifacts.
 
 ## Procedure
 
-The RE process is iterative — later stages may loop back to earlier ones. Follow all five phases in order for a new project; enter at the relevant phase for incremental work.
+Use all phases for a new initiative; enter at the affected phase for an incremental change. Record evidence and disposition at each phase.
 
-### Phase 1: Feasibility Study
+### 1. Feasibility
 
-Determine whether the project is worth pursuing across five dimensions.
+Assess technical, operational, economic, legal, and schedule feasibility. Record assumptions, evidence, risks, mitigations, and a go, conditional-go, or no-go recommendation. **Done when:** each dimension has a verdict and rationale, and every material risk has an owner or explicit acceptance.
 
-1. **Technical feasibility** — assess whether current hardware, software, and team skills can deliver the system. Completion criterion: a yes/no verdict per dimension with rationale.
-2. **Operational feasibility** — assess usability, acceptance by users, and ease of maintenance post-deployment.
-3. **Economic feasibility** (most important) — compare projected cost vs. benefit. Include development, operational, and maintenance costs.
-4. **Legal feasibility** (least emphasized but required) — verify compliance with laws, regulations, standards, and intellectual property constraints.
-5. **Schedule feasibility** — evaluate whether the timeline is realistic given resources and scope.
+### 2. Stakeholders and elicitation
 
-Output: a feasibility report with a go/no-go recommendation. Use `write_file` to save it alongside other project artifacts.
+Identify affected users, owners, operators, regulators, and system dependencies. Select suitable techniques—interviews, observation, document analysis, workshops, surveys, prototyping, or task analysis—and record raw needs, conflicts, assumptions, and gaps. **Done when:** every critical stakeholder has a role, evidence source, and feedback path; unresolved gaps are logged.
 
-See `references/feasibility-framework.md` for the full checklist.
+### 3. Specification
 
-### Phase 2: Requirements Elicitation
+Classify each need as functional, quality/non-functional, constraint, domain rule, or acceptance criterion. Write atomic, active-voice requirements using EARS where useful. Assign a stable ID, source, priority, status, version, rationale, and verification method. Quantify quality targets; avoid implementation choices unless they are explicit constraints. Assemble the SRS with `templates/srs-template.md` and entries from `templates/requirements-table.md`. **Done when:** every entry is atomic, testable, uniquely identified, sourced, prioritized, and included in the SRS.
 
-Gather stakeholder needs, expectations, and domain knowledge. Elicitation does **not** produce formal models — it produces raw, understood requirements.
+### 4. Verification and validation
 
-1. **Identify stakeholders** — list every person/group affected by or influencing the system. Completion criterion: every stakeholder has a name/role and a contact path.
-2. **Select techniques** — choose from: interviews, surveys, focus groups, observation, prototyping, brainstorming, Delphi technique, task analysis, document analysis.
-3. **Execute elicitation** — conduct the selected techniques. Record every need, constraint, expectation, and assumption.
-4. **Document and organize** — group raw requirements by category (functional, non-functional, constraint, domain rule). Flag conflicts and gaps.
+Verify the set for consistency, completeness, unambiguity, feasibility, atomicity, necessity, verifiability, traceability, and implementation independence. Validate with stakeholders using review, walkthrough, prototype, or simulation evidence. Record each issue, disposition, approver, and follow-up. **Done when:** no unresolved blocker remains hidden as a TBD, and stakeholder validation evidence is attached or its absence is explicitly recorded.
 
-See `references/elicitation-techniques.md` for technique selection guidance.
+### 5. Traceability and management
 
-### Phase 3: Requirements Specification
+Build the RTM with `templates/rtm-template.md`, linking each requirement to its source, parent/child items, architecture element, task, test, and verification evidence. For every change request, record impact on scope, architecture, interfaces, quality, tests, schedule, cost, and release; then record approval, rejection, or deferral. **Done when:** no requirement or downstream artifact is orphaned, and the change log identifies all affected owners.
 
-Transform elicited needs into formal, documented requirements. This phase **may trigger re-elicitation** if gaps emerge.
+## Required artifact shapes
 
-1. **Classify each requirement** as one of:
-   - **Functional** — what the system must do (behaviors, inputs/outputs, data processing)
-   - **Non-functional** — how well the system must do it (performance, security, usability, reliability, maintainability — see ISO/IEC 25010 quality model)
-   - **Constraint** — limitations on the solution space (technology, budget, schedule, regulatory)
-   - **Acceptance criterion** — conditions that must be met for the system to be considered complete
-2. **Write each requirement** using EARS syntax where applicable (see `references/ears-syntax.md`). Each requirement must be atomic (one requirement per statement), use active voice, and use "shall" for binding obligations.
-3. **Assign attributes** — every requirement gets: unique ID, source, priority (MoSCoW), status, version, rationale.
-4. **Produce models** as needed: ER diagrams (data entities), DFDs (data flow), FDDs (function decomposition), data dictionaries.
-5. **Assemble the SRS** — compile all requirements, models, and supporting information into a Software Requirements Specification document.
-
-Use `templates/srs-template.md` for the document structure and `templates/requirements-table.md` for individual requirement entries.
-
-### Phase 4: Requirements Verification & Validation
-
-V&V is **iterative** and continues throughout the lifecycle — not a one-time gate.
-
-1. **Verification** (are we building the *thing right*?) — review each requirement and the full set against quality characteristics:
-   - Consistent: no two requirements conflict; same term used for same concept throughout
-   - Complete: no TBDs; set covers all stakeholder needs without further amplification
-   - Unambiguous: each requirement has exactly one interpretation
-   - Verifiable: each requirement can be proven (test, demonstration, inspection, analysis)
-   - Feasible: each requirement is achievable within constraints
-   - Singular/atomic: each requirement contains exactly one obligation
-   - Traceable: each requirement links to its source and to downstream artifacts
-   - Necessary: removing it creates a deficiency
-   - Implementation-free: describes *what*, not *how*
-2. **Validation** (are we building the *right thing*?) — confirm with stakeholders that requirements match their actual needs. Techniques: reviews, walkthroughs, prototyping, simulation.
-3. **Record V&V results** — document every issue found, its resolution, and the disposition (accepted, revised, deferred).
-
-See `references/requirement-quality-attributes.md` for the full quality attribute checklist.
-
-### Phase 5: Requirements Management
-
-Manage changing requirements throughout the lifecycle.
-
-1. **Change tracking** — for every change request: identify source, assess impact (affected requirements, design, tests, schedule, cost), approve or reject, and record the decision.
-2. **Version control** — maintain versioned requirement documents with change history.
-3. **Traceability** — maintain a Requirements Traceability Matrix (RTM) linking each requirement to: its source (stakeholder need), its parent/child requirements, design elements, test cases, and verification results.
-4. **Prioritization** — apply MoSCoW (Must have, Should have, Could have, Won't have this time) or another prioritization scheme. Must-haves should not exceed 60% of total effort.
-5. **Communication** — ensure all stakeholders are informed of requirement changes, status, and decisions.
-
-Use `templates/rtm-template.md` for the traceability matrix.
+- **Requirement:** ID, statement, type, source, priority, rationale, status, version, acceptance/verification method, trace links.
+- **Change record:** ID, requested change, reason, affected IDs, impact, options, decision, approver, effective version.
+- **V&V issue:** ID, criterion, evidence, finding, severity, disposition, owner, due date.
+- **RTM row:** requirement ID, source, parent/child, architecture/task/test links, verification status.
 
 ## Quick Reference
 
-| Phase | Key Output | Template |
-|------|-----------|----------|
-| Feasibility | Go/no-go report | `references/feasibility-framework.md` |
-| Elicitation | Raw requirements list | `references/elicitation-techniques.md` |
-| Specification | SRS document | `templates/srs-template.md` |
-| V&V | Quality review results | `references/requirement-quality-attributes.md` |
-| Management | RTM + change log | `templates/rtm-template.md` |
+| Need | Artifact |
+|---|---|
+| Feasibility | Go/no-go report |
+| Discovery | Stakeholder register and raw requirements |
+| Specification | SRS and requirements table |
+| Quality review | V&V issue log |
+| Traceability | RTM and change log |
 
-### Requirement writing quick rules
+### Writing rules
 
-- One requirement per statement (atomic — no "and"/"or" chaining)
-- Use "shall" for mandatory, "should" for recommended, "may" for optional
-- Active voice: "The system shall..." not "It shall be..."
-- EARS patterns for complex conditions (see `references/ears-syntax.md`)
-- Every requirement has a unique ID and is traceable to its source
-- No implementation details — describe *what*, not *how*
-- Avoid vague terms ("fast", "user-friendly", "robust") — quantify everything
+- One obligation per requirement; avoid chained “and/or”.
+- Use `shall` for mandatory, `should` for recommended, and `may` for optional behavior.
+- Quantify latency, capacity, availability, security, usability, and other quality targets.
+- Describe what is needed, not an unapproved implementation.
+- Use stable terminology and IDs across all artifacts.
 
 ## Pitfalls
 
-1. **Everything is a Must-have.** MoSCoW collapses if >60% is Must. Force trade-offs.
-2. **Confusing functional with non-functional.** Functional = what the system does; non-functional = how well it does it. If it addresses a quality attribute, it's non-functional.
-3. **Passive voice hides accountability.** "The system shall be secured" — who secures it? Use active voice: "The system shall enforce authentication..."
-4. **Vague quantifiers.** "The system shall respond quickly" is unverifiable. Specify: "The system shall respond within 200ms at 95th percentile."
-5. **Implementation bias.** "The system shall use Redis for caching" is a constraint disguised as a requirement. Reframe as: "The system shall cache frequently accessed data with sub-millisecond retrieval latency."
-6. **Skipping V&V.** Requirements that pass a quick self-review still need stakeholder validation and consistency checks across the full set.
-7. **Forgetting implicit requirements.** Session management, error handling, browser compatibility, data persistence — these are real requirements even if no stakeholder mentioned them.
-8. **EARS overuse.** Not every requirement needs EARS. If a requirement has more than three preconditions, use a different format (table, diagram, or structured prose).
+- Treating every request as Must-have; force an explicit trade-off.
+- Hiding ambiguity behind passive voice or vague terms such as “fast” or “user-friendly”.
+- Mixing a solution choice into a need without labeling it as a constraint.
+- Declaring completeness while TBDs, conflicts, or missing stakeholders remain.
+- Claiming validation or stakeholder agreement without recorded evidence.
+- Updating the SRS but not the RTM, change log, or downstream impact records.
 
 ## Verification
 
-- [ ] Every requirement has a unique ID, source, and priority
-- [ ] Every functional requirement maps to at least one acceptance criterion
-- [ ] Every requirement passes the quality attribute checklist (see `references/requirement-quality-attributes.md`)
-- [ ] The RTM has no orphan requirements (every requirement links to a source and a test)
-- [ ] No two requirements conflict (consistency check across the full set)
-- [ ] No TBDs or placeholders remain in the SRS
-- [ ] Stakeholders have validated the requirements (not just the author)
+- [ ] Feasibility has evidence-backed verdicts for all five dimensions.
+- [ ] Every critical stakeholder has a role and feedback path.
+- [ ] Every requirement has the required fields, a source, priority, and verification method.
+- [ ] Requirements are atomic, measurable where applicable, consistent, and implementation-neutral.
+- [ ] Stakeholder validation evidence or an explicit evidence gap is recorded.
+- [ ] RTM links requirements to downstream design, tasks, tests, and results.
+- [ ] Change records include impact, decision, approver, and propagation status.
+- [ ] No unresolved blocker is hidden in a placeholder.
