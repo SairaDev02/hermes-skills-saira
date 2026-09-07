@@ -30,7 +30,7 @@ Requirements → Architecture → Task Engineering → [implementation harness]
 RAD Engineer ── coordinates evidence and decisions across the lifecycle when selected
 ```
 
-Each arrow should produce a structured artifact that the receiving role can act on without an undocumented conversation. See [Roles.md](Roles.md) for role inputs, outputs, tasks, and feedback paths.
+Each arrow carries a versioned package and uses the shared [handoff template](templates/HANDOFF.md). Findings use the [feedback record](templates/feedback-record.yaml). See [Roles.md](Roles.md) for the role index and routing rules.
 
 ## Structure
 
@@ -39,6 +39,16 @@ software-development/<role>/
   SKILL.md
   references/
   templates/
+templates/
+  HANDOFF.md
+  feedback-record.yaml
+docs/
+  PROJECT-CONSTITUTION.md
+  REFERENCE-INDEX.md
+  GLOSSARY.md
+  ASSUMPTIONS.md
+  COLLABORATION-PROTOCOL.md
+  CHANGE-IMPACT-MAP.md
 README.md
 Roles.md
 ```

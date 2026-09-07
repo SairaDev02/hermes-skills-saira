@@ -13,7 +13,7 @@ metadata:
 
 # QA Engineer Skill
 
-Produce specification and evidence-review artifacts for LLM-generated software. This role derives tests from requirements and contracts, defines fixtures and execution plans, structures defect and coverage reports, and plans regression verification. It does not write executable tests, run tests, or modify implementation.
+Produce a compact QA design package and, after implementation, an evidence package for LLM-generated software. QA derives tests from requirements and contracts, defines fixtures and execution plans, and reviews actual results for defects, coverage, and regression. It does not write executable tests, run tests, or modify implementation.
 
 ## Documentation-only boundary
 
@@ -29,9 +29,11 @@ Outputs are test plans, test cases, test specifications, fixture specifications,
 ## Prerequisites
 
 - SRS, RTM, architecture/interface contracts, and task output contracts.
+- Shared project context: `docs/PROJECT-CONSTITUTION.md`, `docs/REFERENCE-INDEX.md`, `docs/GLOSSARY.md`, `docs/ASSUMPTIONS.md`, and `docs/CHANGE-IMPACT-MAP.md`.
 - Completed implementation and actual test/exploratory results for evidence-based Tasks 7–10.
 - Project test framework and environment details, or an explicit unknown/recommendation.
 - Use `read_file`, `search_files`, `write_file`, and `patch` for documents.
+- Use the shared root `templates/HANDOFF.md` for both the design handoff to the harness and the evidence handoff to Code Review.
 
 ## Procedure
 
@@ -41,7 +43,7 @@ Read the specification before implementation. Catalog requirements, acceptance c
 
 ### 2. Derive test cases
 
-For every acceptance criterion, define positive, negative, boundary, equivalence-partition, decision-table, state-transition, or risk-based cases as appropriate. Give each a stable ID, preconditions, steps, expected result, technique, and requirement link. **Done when:** no criterion, input boundary, invalid class, or relevant state transition is unrepresented without rationale.
+For every acceptance criterion, define at least one proving case and add negative, boundary, equivalence-partition, decision-table, state-transition, or risk-based cases according to applicability and risk. Give each a stable ID, preconditions, steps, expected result, technique, and requirement link. **Done when:** every criterion is proven and omitted case types have a rationale.
 
 ### 3. Specify data, fixtures, and implementation
 
@@ -53,11 +55,15 @@ Define test order, environment, expected results, failure triage, reporting fiel
 
 ### 5. Report defects and coverage
 
-For each actual finding, record evidence, minimal reproduction, severity, priority, affected requirement, fix area, owner, and status. Build a requirement-to-test-result matrix and flag unmapped, failing, skipped, and code-path gaps. **Done when:** every finding is evidence-backed and every RTM requirement has a coverage disposition.
+For each actual finding, record evidence, minimal reproduction, severity, priority, affected requirement, fix area, owner, and status. Use the shared `templates/feedback-record.yaml` shape for cross-role findings. Build a requirement-to-test-result matrix and flag unmapped, failing, skipped, and code-path gaps. **Done when:** every finding is evidence-backed and every RTM requirement has a coverage disposition.
 
 ### 6. Specify regression verification
 
 For each fix, name the confirming test, full-suite scope, regression analysis, over-fitting checks, focused exploration, and report format. **Done when:** the plan verifies both the reported behavior and collateral impact, with no claimed execution result absent evidence.
+
+## Handoff
+
+Use the shared root `templates/HANDOFF.md` twice when needed: once for the design package to the implementation harness, and once for evidence and coverage to Code Review. Do not mix planned results with observed results.
 
 ## Required artifact shapes
 
@@ -67,16 +73,19 @@ For each fix, name the confirming test, full-suite scope, regression analysis, o
 - **Coverage row:** requirement, tests, results, code-path evidence, gap, disposition.
 - **Regression gate:** fix evidence, suite scope, result, residual risk, approver.
 
-## Quick Reference
+## Package structure
 
-| Area | Artifact |
-|---|---|
-| Planning | Test plan |
-| Design | Test cases and specifications |
-| Data | Fixture specification |
-| Handoff | Implementation and execution plans |
-| Findings | Bug and coverage-gap reports |
-| Rework | Regression verification plan |
+Use one compact package unless a project needs separate review:
+
+```text
+qa/
+  TEST-PLAN.md       # basis, scope, strategy, entry/exit rules
+  TEST-MATRIX.md     # cases, fixtures, requirement links, and results
+  FINDINGS.md        # defects, coverage gaps, regression disposition
+  HANDOFF.md         # shared handoff template
+```
+
+Separate implementation and execution sections when their evidence states differ. The design handoff goes to the harness; the evidence handoff goes to Code Review.
 
 ## Pitfalls
 
@@ -90,7 +99,7 @@ For each fix, name the confirming test, full-suite scope, regression analysis, o
 ## Verification
 
 - [ ] Every requirement and acceptance criterion has a traceable test disposition.
-- [ ] Test cases cover valid, invalid, boundary, state, and risk-relevant behavior.
+- [ ] Every criterion has a proving case; applicable invalid, boundary, state, and risk cases are included or justified.
 - [ ] Fixtures, mocks, setup, teardown, and isolation are specified.
 - [ ] Implementation and execution documents contain pseudocode and reporting rules, not executable code.
 - [ ] Exploratory sessions have scope, scenarios, evidence format, and time box.

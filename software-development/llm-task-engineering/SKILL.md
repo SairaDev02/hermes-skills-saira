@@ -13,7 +13,7 @@ metadata:
 
 # LLM Task Engineering Skill
 
-Transform approved architecture and requirements into a self-contained task manifest for a coding harness. This documentation-only role specifies scope, context, outputs, acceptance, constraints, dependencies, and sizing; it does not implement tasks, write tests, or execute commands.
+Transform approved architecture and requirements into a normalized task manifest and self-contained dispatch bundles for a coding harness. The source manifest minimizes duplication; generated bundles inline the context needed by each task. This documentation-only role specifies scope, context, outputs, acceptance, constraints, dependencies, and sizing; it does not implement tasks, write tests, or execute commands.
 
 ## When to Use
 
@@ -25,8 +25,10 @@ Transform approved architecture and requirements into a self-contained task mani
 ## Prerequisites
 
 - Approved architecture, interface contracts, SRS, RTM, cross-cutting concerns, and decomposability report.
+- Shared project context: `docs/PROJECT-CONSTITUTION.md`, `docs/REFERENCE-INDEX.md`, `docs/GLOSSARY.md`, `docs/ASSUMPTIONS.md`, and `docs/CHANGE-IMPACT-MAP.md`.
 - Target harness and context-window size; if unknown, record the assumption instead of presenting it as fact.
 - Use `read_file`, `search_files`, `write_file`, and `patch` for artifacts.
+- Use the shared root `templates/HANDOFF.md` for the transition to the implementation harness.
 
 ## Procedure
 
@@ -40,29 +42,35 @@ Catalog every module, contract, requirement link, and architecture finding. Deco
 
 For each task, list files/modules/functions it may create or modify and an explicit exclusion list. Identify shared-file ownership and required sequencing. **Done when:** every task has inclusion and exclusion scope, and every overlap is coordinated by a dependency or integration owner.
 
-### 3. Curate minimal context
+### 3. Curate normalized context
 
-Include only the module responsibility, relevant contracts on both sides, applicable cross-cutting rules, linked requirements, existing code context, and style constraints. Copy required content into the task entry; do not rely on “see also” references. Estimate tokens and keep input context within the chosen budget. **Done when:** each entry contains all necessary context with no irrelevant document dump.
+Create reusable, immutable context blocks for module responsibilities, contracts, cross-cutting rules, requirements, existing code, and style constraints. Reference blocks from source task entries; do not duplicate them unnecessarily. **Done when:** every task has a minimal context-block list and the source manifest has no contradictory copies.
 
-### 4. Define output and acceptance
+### 4. Generate dispatch bundles
+
+Expand each task's context-block list into a self-contained bundle for the harness. The bundle must contain all required context and no unresolved “see also” references. Record the source manifest version and block versions. **Done when:** every bundle can be dispatched without external lookup and can be regenerated deterministically.
+
+The normalized manifest and generated bundles are separate artifacts: maintainers edit the former; the harness consumes the latter.
+
+### 5. Define output and acceptance
 
 Specify public signatures and types, behavior on normal and error paths, side effects, expected files, integration points, and implementation-neutral acceptance criteria. Map each criterion to an SRS requirement ID through the RTM. **Done when:** every task has a binary, verifiable done condition and every mapped requirement is covered.
 
-### 5. Build and validate dependencies
+### 6. Build and validate dependencies
 
 Record dependencies caused by interfaces, shared files, data models, migrations, and verification gates. Group independent tasks into parallel waves and represent the graph in Mermaid or the selected structured format. **Done when:** every task has a dependency list, every wave is valid, and the graph is acyclic.
 
-### 6. Apply constraints and size tasks
+### 7. Apply constraints and size tasks
 
 Propagate cross-cutting conventions, then add task-specific constraints and check for conflicts. Estimate input context, output contract, constraints, and expected output size against the target context window. Decompose tasks above the agreed limit and re-run scope through dependency checks. **Done when:** every task has a sizing verdict, smart-zone flag if used, and consistent constraints.
 
-### 7. Assemble and emit the manifest
+### 8. Assemble and emit the manifest
 
-Use `templates/task-entry.md`, `templates/task-manifest.md`, and `templates/dependency-dag.md` where present. Include manifest version, source artifact versions, target harness, context-window assumption, task entries, module map, and DAG. **Done when:** every entry is complete, self-contained, versioned, and the manifest format is valid.
+Use `templates/task-entry.md`, `templates/task-manifest.md`, and `templates/dependency-dag.md` where present. Include manifest version, source artifact versions, target harness, context-window assumption, shared context blocks, task entries, module map, DAG, and generated bundle index. **Done when:** the normalized manifest and every generated bundle are complete, versioned, reproducible, and valid.
 
 ## Required task entry
 
-`id`, title, parent module, objective, scope in, scope out, embedded context, output contract, acceptance criteria with requirement IDs, constraints, dependencies, integration checkpoints, estimated context, and status.
+`id`, title, parent module, objective, scope in, scope out, context block IDs, output contract, acceptance criteria with requirement IDs, constraints, dependencies, integration checkpoints, estimated context, bundle path/version, and status.
 
 ## Quick Reference
 
@@ -78,7 +86,7 @@ Use `templates/task-entry.md`, `templates/task-manifest.md`, and `templates/depe
 
 ## Pitfalls
 
-- Kitchen-sink context or external “see also” dependencies.
+- Kitchen-sink context, duplicated context blocks, or external “see also” dependencies in generated bundles.
 - Missing exclusion scope, causing unrequested refactoring.
 - Parallelizing tasks with hidden interface, migration, or shared-file dependencies.
 - Writing acceptance criteria that cannot be tested or inspected.
@@ -90,7 +98,8 @@ Use `templates/task-entry.md`, `templates/task-manifest.md`, and `templates/depe
 
 - [ ] Every architecture module maps to a task; no task is orphaned.
 - [ ] Every task has unique identity, objective, scope in, and scope out.
-- [ ] Context is minimal, embedded, and within the stated budget.
+- [ ] Context blocks are minimal, versioned, non-contradictory, and within the stated budget.
+- [ ] Every task has a generated, self-contained dispatch bundle with a source/version index.
 - [ ] Output contracts include typed behavior, files, errors, and integration points.
 - [ ] Acceptance criteria are binary and trace to SRS IDs via the RTM.
 - [ ] The dependency graph is complete, acyclic, and wave-valid.

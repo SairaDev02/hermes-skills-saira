@@ -26,6 +26,7 @@ Produce implementation-neutral requirements artifacts from discovery through cha
 
 - Problem statement, business goals, constraints, and available stakeholder evidence.
 - Existing requirements and change history for incremental work.
+- Shared project context: `docs/PROJECT-CONSTITUTION.md`, `docs/REFERENCE-INDEX.md`, `docs/GLOSSARY.md`, `docs/ASSUMPTIONS.md`, and `docs/CHANGE-IMPACT-MAP.md`.
 - Use `read_file`, `search_files`, `write_file`, and `patch` for project artifacts.
 
 ## Procedure
@@ -51,6 +52,10 @@ Verify the set for consistency, completeness, unambiguity, feasibility, atomicit
 ### 5. Traceability and management
 
 Build the RTM with `templates/rtm-template.md`, linking each requirement to its source, parent/child items, architecture element, task, test, and verification evidence. For every change request, record impact on scope, architecture, interfaces, quality, tests, schedule, cost, and release; then record approval, rejection, or deferral. **Done when:** no requirement or downstream artifact is orphaned, and the change log identifies all affected owners.
+
+## Handoff
+
+Use the shared root `templates/HANDOFF.md` for the requirements baseline handoff. Include the feasibility decision, baseline version, unresolved assumptions, changed requirement IDs, verification methods, and stakeholder validation status.
 
 ## Required artifact shapes
 

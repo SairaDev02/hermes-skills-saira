@@ -1,8 +1,8 @@
 # Task Manifest Template
 
-> The task manifest is the dispatchable artifact consumed by the coding harness.
-> It must be self-contained — the harness dispatches each task entry as-is to an LLM.
-> Use this template as the top-level document. Each task entry uses `task-entry.md`.
+> The source manifest is normalized and maintainable; dispatch bundles are generated from it.
+> Each generated bundle is self-contained and is the artifact consumed by the coding harness.
+> Use this template as the top-level source document. Each task entry uses `task-entry.md`.
 
 ---
 
@@ -22,6 +22,9 @@
 | Total context budget (60%) | <e.g., 120K tokens> |
 | Total tasks | <N> |
 | Parallel waves | <M> |
+| Context block catalog | <path or inline IDs> |
+| Dispatch bundle directory | <path> |
+| Bundle generation method/version | <command or tool/version> |
 
 ## Module-to-Task Map
 
@@ -59,9 +62,15 @@ graph TD
     TASK-006 -->|needs IFC-010| TASK-004
 ```
 
+## Context Blocks
+
+| ID | Version | Purpose | Content/path |
+|---|---|---|---|
+| CTX-001 | 1.0 | <shared responsibility, contract, or rule> | <content or path> |
+
 ## Task Entries
 
-<For each task, include the full task entry here. See `task-entry.md` for the per-task format.>
+<For each task, include normalized metadata and context block IDs. See `task-entry.md` for the per-task format.>
 
 ---
 
@@ -78,6 +87,12 @@ graph TD
 ---
 
 <!-- Repeat for all tasks -->
+
+## Dispatch Bundle Index
+
+| Task | Bundle path | Source manifest version | Context block versions | Self-contained |
+|---|---|---|---|---|
+| TASK-001 | <path> | <version> | <IDs/versions> | PASS |
 
 ## Self-Containment Audit Results
 

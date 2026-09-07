@@ -29,6 +29,7 @@ Outputs are CI, deployment, environment, release, monitoring, alerting, and roll
 ## Prerequisites
 
 - Approved code/review verdict, deployment topology, target environments, and QA evidence.
+- Shared project context: `docs/PROJECT-CONSTITUTION.md`, `docs/REFERENCE-INDEX.md`, `docs/GLOSSARY.md`, `docs/ASSUMPTIONS.md`, and `docs/CHANGE-IMPACT-MAP.md`.
 - Known CI/deployment/monitoring platforms, or documented recommendations and assumptions.
 - Secret-management owner and operational escalation path.
 - Use `read_file`, `search_files`, `write_file`, and `patch` for specifications.
@@ -58,6 +59,10 @@ Specify health checks, logs, metrics, traces, dashboards, SLOs, error budgets, a
 ### 6. Define rollback and recovery
 
 Specify rollback mechanism, automatic/manual triggers, database migration strategy, previous-known-good identification, verification, notification, drills, incident follow-up, and fix-forward rules. **Done when:** rollback has a bounded interface, health verification, data-loss assessment, and tested recovery evidence requirement.
+
+## Handoff ownership
+
+Use the shared `templates/HANDOFF.md` for the release input and readiness handoff. Distinguish specification complete, implementation complete, deployment verified, rollback drilled, and monitoring active. Name the owner, implementer, and verifier for each control; a specification is not evidence that its control exists.
 
 ## Required artifact shapes
 
@@ -97,3 +102,4 @@ Specify rollback mechanism, automatic/manual triggers, database migration strate
 - [ ] Monitoring covers four golden signals, SLOs, error budgets, dashboards, and routing.
 - [ ] Rollback covers triggers, mechanism, database risk, verification, drills, and follow-up.
 - [ ] The role produced documentation only and made no unsupported execution claim.
+- [ ] Each control identifies specification owner, implementer, verifier, and evidence state.
