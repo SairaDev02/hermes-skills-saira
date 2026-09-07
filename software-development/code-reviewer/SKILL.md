@@ -26,6 +26,7 @@ Produce an evidence-backed review package for completed code. This role checks r
 
 - Diff, PR, or file set and the task spec that generated it.
 - Applicable SRS, RTM, architecture, interface contracts, and test results.
+- Shared project context: `docs/PROJECT-CONSTITUTION.md`, `docs/REFERENCE-INDEX.md`, `docs/GLOSSARY.md`, `docs/ASSUMPTIONS.md`, and `docs/CHANGE-IMPACT-MAP.md`.
 - Available scanners/linters and their actual output; mark unavailable tools honestly.
 - Use `read_file`, `search_files`, `terminal`, `write_file`, and `patch` for review artifacts. Use `github-code-review` only when the user asks to publish comments.
 
@@ -49,7 +50,11 @@ Assess changed functions for complexity, length, nesting, naming, duplication, e
 
 ### 5. Write findings and verdict
 
-Consolidate findings with stable IDs, severity, type, precise location, evidence, requirement/contract link, and fix direction. Use the decision matrix: approve only with no blocking findings; request changes for fixable critical/warning issues; reject when the approach requires re-architecture. **Done when:** the verdict counts findings exactly, states residual risk, and names the next owner and feedback path.
+Consolidate findings with stable IDs, severity, type, precise location, evidence, requirement/contract link, and fix direction. Use the shared `templates/feedback-record.yaml` shape when routing a finding to another role. Use the decision matrix: approve only with no blocking findings; request changes for fixable critical/warning issues; reject when the approach requires re-architecture. **Done when:** the verdict counts findings exactly, states residual risk, and names the next owner and feedback path.
+
+## Handoff
+
+Use the shared root `templates/HANDOFF.md` for the review gate handoff. Identify the reviewed revision, evidence versions, verdict, residual risk, unresolved findings, and next owner.
 
 ## Required artifact shapes
 

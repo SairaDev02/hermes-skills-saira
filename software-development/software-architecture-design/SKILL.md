@@ -25,6 +25,7 @@ Produce an implementation-ready architecture package from approved requirements.
 ## Prerequisites
 
 - Approved SRS, RTM, feasibility report, and known deployment constraints.
+- Shared project context: `docs/PROJECT-CONSTITUTION.md`, `docs/REFERENCE-INDEX.md`, `docs/GLOSSARY.md`, `docs/ASSUMPTIONS.md`, and `docs/CHANGE-IMPACT-MAP.md`.
 - Use `read_file`, `search_files`, `write_file`, and `patch` for artifacts.
 - Produce Mermaid or PlantUML source rather than image-only diagrams.
 
@@ -59,6 +60,10 @@ Create context, container, component where needed, deployment, and primary data-
 ### 7. Validate decomposability
 
 For every module, check that a task can implement it using only its responsibility, contracts, applicable cross-cutting rules, and relevant requirements. Check context budget, undocumented dependencies, ownership overlap, and feedback from Task Engineering. **Done when:** the report has a pass/fail verdict for every module and a precise return point for each failure.
+
+## Handoff
+
+Use the shared root `templates/HANDOFF.md` for the architecture boundary baseline. Include module ownership, interface/ADR versions, cross-cutting rules, decomposability status, unresolved risks, and explicit constraints for Task Engineering.
 
 ## Required artifact shapes
 
