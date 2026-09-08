@@ -37,3 +37,17 @@ Release → owning role: delivery or operational readiness gap
 ```
 
 The receiving role closes the record or creates a superseding record. Do not silently edit an upstream baseline.
+
+## Project closure
+
+Closure is not a role; it is a checklist applied by the service owner (with the DevOps / Release Engineer as acting coordinator) once delivery is accepted and the lifecycle's final handoff is `READY`. Closure confirms the project's documentation-only contracts actually ended cleanly — nothing stays open by default.
+
+Before closing a project, verify:
+
+- Every feedback record is closed or superseded; none silently expired.
+- Every entry in `docs/ASSUMPTIONS.md` is resolved, or explicitly archived with its unresolved state noted.
+- All handoff packages and artifact versions are final, versioned, and archived under their owning role.
+- The change-impact map is empty of pending follow-ups.
+- Lessons learned are written as candidate inputs to the Requirements Engineer for the next project — never as edits to a closed baseline.
+
+Closure output is a single [`templates/CLOSURE.md`](templates/CLOSURE.md) record, filed with the project's handoff packages. The next project's role 1 consumes only that record; nothing else from the closed project is authoritative.

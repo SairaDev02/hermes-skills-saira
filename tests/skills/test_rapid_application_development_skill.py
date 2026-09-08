@@ -45,13 +45,15 @@ def test_skill_is_documentation_only_and_has_ordered_tasks():
     assert "## Sources" in text
 
 
-def test_role_indexes_reference_the_new_skill():
+def test_role_indexes_reference_the_streamlined_skill():
     readme = README.read_text(encoding="utf-8")
     roles = ROLES.read_text(encoding="utf-8")
 
     assert "software-development/rapid-application-development/SKILL.md" in readme
-    assert "Role 7: Rapid Application Development" in roles
     assert "rapid-application-development" in readme
+    # RAD is governed separately and intentionally not covered by Roles.md.
+    assert "governed separately" in roles
+    assert "Role 7" not in roles
 
 
 def test_supporting_reference_is_present():
