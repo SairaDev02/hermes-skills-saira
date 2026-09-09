@@ -2,7 +2,7 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Built for Hermes Agent](https://img.shields.io/badge/Hermes-Agent-blue)](https://hermes-agent.nousresearch.com/docs)
-[![Roles: 7](https://img.shields.io/badge/Roles-7-green)](#skills)
+[![Skills: 7](https://img.shields.io/badge/Skills-7-green)](#skills)
 [![Docs-only: 6 of 7](https://img.shields.io/badge/Docs--only-6_of_7-lightgrey)](#documentation-only-principle)
 
 A collection of [Hermes Agent](https://hermes-agent.nousresearch.com/docs) skills covering the software-development lifecycle, from requirements through release. Each skill guides a specialist role's thinking and writing; the roles hand work to each other through versioned document packages, never through hallway conversation.
@@ -17,7 +17,7 @@ The sole exception is [Rapid Application Development](software-development/rapid
 
 ## Installation
 
-Three ways to get these roles into Hermes Agent, easiest first. The repo is private, so CLI installs need `GITHUB_TOKEN` in `~/.hermes/.env` (already required for hub rate limits; private repos won't resolve without it).
+Three ways to get these roles into Hermes Agent, easiest first. For CLI installs from a private fork, set `GITHUB_TOKEN` in `~/.hermes/.env` (already required for hub rate limits; private repos won't resolve without it).
 
 ### Option A — by prompting (in-chat, easiest)
 
@@ -76,7 +76,7 @@ Repeat the `cp` per role, or copy the whole `software-development/` tree for all
   ```yaml
   skills:
     external_dirs:
-      - ~/Desktop/HermesSkills/.worktrees/better-readme
+      - ~/projects/hermes-skills
   ```
 - **Repo-local only** (roles active just inside this checkout): place them under `<project-root>/.hermes/skills/` (or `.agents/skills/` for cross-tool sharing) and run `hermes skills trust` once from inside the repo. Project skills outrank profile skills and are tagged `[project]` in the index.
 
