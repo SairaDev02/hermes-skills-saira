@@ -1,0 +1,17 @@
+# Shared feedback/finding record. Copy into the receiving role's findings file.
+id: FIND-000
+kind: requirement-change # requirement-change | boundary-defect | task-gap | test-gap | review-finding | release-gap
+severity: major # blocking | major | minor | informational
+status: open # open | accepted | rejected | superseded | verified
+source_role: qa-engineer
+target_role: task-engineer
+source_artifact: path/to/source-artifact
+source_revision: commit-or-version
+affected_ids: [] # REQ-, ADR-, MOD-, IFC-, TASK-, TC-, FIND- identifiers
+summary: ""
+evidence: ""
+required_action: ""
+owners: []
+due: null
+resolution_artifact: null
+supersedes: null

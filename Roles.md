@@ -139,26 +139,28 @@ These are defined as discrete, sequential units of work — each with its input,
 ## Cross-Role Feedback Map
 
 ```text
-Requirements Engineer ─────────────────────────────────────────┐
-        │                                                      │
-        ▼                                                      │
-    Architect ◄──── (boundary won't decompose) ──── Task Engineer
-        │                                              │
-        ▼                                              │ (task spec gaps)
-    Task Engineer ──── (task manifest) ───► Pi (harness) ──► LLMs
-        │                                              │
-        │ (bug reports)                                ▼
-        │                                    Completed code
-        ▼                                              │
-    Tester ◄──────── (implementation) ─────────────────┤
-        │                                              │
-        ▼                                              ▼
-    Code Reviewer ◄──────── (code + test results) ─────┘
-        │
-        ▼
-    [Approve] → DevOps → Release
-    [Request changes] → Task Engineer (refine spec → Pi re-dispatch)
-    [Reject] → Architect (re-design)
+Requirements → Architect: requirement or driver clarification
+Architect → Task Engineer: boundary or contract defect
+Task Engineer → Architect/Requirements: decomposition or traceability gap
+QA → Task Engineer: implementation or task-spec defect
+QA → Requirements: untestable or uncovered requirement
+Review → Task Engineer: fixable code finding
+Review → Architect: re-architecture finding
+Release → owning role: delivery or operational readiness gap
 ```
 
-The core insight for skill development: **every feedback path in this diagram should be an explicit, documented artifact — not an implicit "go talk to the other role."** In LLM-based development, coordination is artifact flow. Each arrow should produce a structured document that the receiving role can act on without additional conversation.
+The receiving role closes the record or creates a superseding record. Do not silently edit an upstream baseline.
+
+## Project closure
+
+Closure is not a role; it is a checklist applied by the service owner (with the DevOps / Release Engineer as acting coordinator) once delivery is accepted and the lifecycle's final handoff is `READY`. Closure confirms the project's documentation-only contracts actually ended cleanly — nothing stays open by default.
+
+Before closing a project, verify:
+
+- Every feedback record is closed or superseded; none silently expired.
+- Every entry in `docs/ASSUMPTIONS.md` is resolved, or explicitly archived with its unresolved state noted.
+- All handoff packages and artifact versions are final, versioned, and archived under their owning role.
+- The change-impact map is empty of pending follow-ups.
+- Lessons learned are written as candidate inputs to the Requirements Engineer for the next project — never as edits to a closed baseline.
+
+Closure output is a single [`templates/CLOSURE.md`](templates/CLOSURE.md) record, filed with the project's handoff packages. The next project's role 1 consumes only that record; nothing else from the closed project is authoritative.
