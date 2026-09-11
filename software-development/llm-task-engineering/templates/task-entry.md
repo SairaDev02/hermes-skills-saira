@@ -1,18 +1,12 @@
 # Task Entry Template
 
-> One normalized entry per task. It references versioned context blocks.
-> The generated dispatch bundle, not this source entry, must be self-contained.
+> One entry per task. Each entry must be self-contained — the LLM receives
+> only this entry and cannot look up external references.
 > This template defines the structure; fill in all fields.
 
 ---
 
 ## Task <TASK-ID>: <Title>
-
-### Source context
-
-- Constitution: `docs/PROJECT-CONSTITUTION.md`
-- References: `REF-000` — applies to `<rule/API>`
-- Assumptions: `ASM-000` — status `<status>`
 
 ### Description
 
@@ -38,20 +32,38 @@
 
 - <any ambiguous cases resolved — e.g., "may read but not modify X">
 
-### Context Blocks
+### Input Context
 
-> List the immutable, versioned blocks used to generate this task's bundle.
-> The bundle generator expands these blocks before dispatch.
+> This is ALL the context the LLM receives. It cannot ask for more.
+> Trim to the minimal high-signal set. See `references/context-curation.md`.
 
-| Block ID | Version | Purpose |
-|---|---|---|
-| CTX-001 | 1.0 | <module responsibility or contract> |
+#### Module Responsibility
 
-#### Context Block Expansion Preview (optional)
+<One-sentence responsibility statement from architecture document>
 
-<Generated bundle may inline the selected blocks here for review; this is derived output, not authoritative source content.>
+#### Interface Contracts (Implementing)
 
-The normalized entry stores context block IDs only. The bundle generator expands those blocks into the dispatch artifact, including the applicable module responsibility, interfaces, requirements, conventions, existing-code excerpts, and constraints. Do not maintain a second hand-edited copy here.
+<Full text of interface contracts this task implements — trimmed to relevant operations>
+
+#### Interface Contracts (Consuming)
+
+<Signatures and data models only for interfaces this task calls as a client>
+
+#### Requirements
+
+<SRS requirement entries mapped to this task via the RTM — verbatim text>
+
+#### Conventions
+
+<Relevant cross-cutting concern conventions — verbatim from the spec>
+
+#### Existing Code
+
+<Code sections the task will extend or integrate with — trimmed to relevant functions>
+
+#### Constraints
+
+<Coding standards, patterns, libraries, error handling rules — both cross-cutting and task-specific>
 
 ### Output Contract
 
@@ -96,14 +108,6 @@ function exampleFunction(param: Type): ReturnType;
 **Blocks:**
 
 - <TASK-ID> — reason: <why this task must complete before the other can start>
-
-### Claim state and evidence
-
-| Acceptance item | State | Evidence required |
-|---|---|---|
-| AC-1 | PLANNED | `<command, test, inspection, or stakeholder evidence>` |
-
-Allowed states: `PLANNED`, `IMPLEMENTED`, `VERIFIED`, `BLOCKED`, `DISPUTED`, `STALE`.
 
 ### Estimated Context
 

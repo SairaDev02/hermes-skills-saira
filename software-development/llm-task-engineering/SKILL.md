@@ -1,7 +1,7 @@
 ---
 name: llm-task-engineering
 description: Decompose architecture into self-contained task specs.
-version: 0.2.0
+version: 0.3.0
 author: FerdinandM, Hermes Agent
 license: MIT
 platforms: [linux, macos, windows]
@@ -68,6 +68,15 @@ Propagate cross-cutting conventions, then add task-specific constraints and chec
 
 Use `templates/task-entry.md`, `templates/task-manifest.md`, and `templates/dependency-dag.md` where present. Include manifest version, source artifact versions, target harness, context-window assumption, shared context blocks, task entries, module map, DAG, and generated bundle index. **Done when:** the normalized manifest and every generated bundle are complete, versioned, reproducible, and valid.
 
+## Post-dispatch live-QA triage (role boundary)
+
+When the user reports defects from live testing of dispatched implementation work, the Task Engineer does NOT write fixes. The role is: diagnose, hand off, verify.
+
+1. **Diagnose first** — trace the root cause in the worktree with evidence before anything else: failure logs (e.g. the app's diagnostics sink), live probes (curl/API checks), code reads along the failing seam. State root causes with file anchors in the handoff; never hand the harness a blank map. If evidence contradicts the traced cause mid-fix, the harness stops and reports back.
+2. **Hand the fix to the coding harness** as a plaintext prompt containing: exact symptoms; a step-0 evidence command the harness must run and quote (so it confirms the diagnosis before touching code); the traced root causes with file paths; minimal fix guidance (pattern to follow, constraints honored); verification commands with expected counts (test suites, linters, builds) that the harness must quote; hard constraints (cross-cutting rules, no new dependencies, touch-only file list, no example/contract edits); commit discipline (one commit, message format, no push); and known-unknowns explicitly marked do-not-chase.
+3. **Verify only after the user says fixes are applied** — run independent V&V: full test suites, audits, builds, re-running commands personally and checking counts. Never accept the harness's own verification claims as evidence.
+4. **Number the trail** — record each live-QA defect as BUG-N with its root cause and fix commit so regression tests and manifest feedback artifacts stay traceable across rounds.
+
 ## Required task entry
 
 `id`, title, parent module, objective, scope in, scope out, context block IDs, output contract, acceptance criteria with requirement IDs, constraints, dependencies, integration checkpoints, estimated context, bundle path/version, and status.
@@ -93,6 +102,7 @@ Use `templates/task-entry.md`, `templates/task-manifest.md`, and `templates/depe
 - Inventing a target context size instead of recording an assumption.
 - Over-decomposing small coherent changes into coordination overhead.
 - Updating the architecture or SRS without regenerating affected task entries.
+- Fixing live-QA defects directly instead of handing them to the coding harness — the Task Engineer diagnoses and verifies, the harness edits code.
 
 ## Verification
 
@@ -106,3 +116,4 @@ Use `templates/task-entry.md`, `templates/task-manifest.md`, and `templates/depe
 - [ ] Constraints are consistent with cross-cutting architecture rules.
 - [ ] Each task has a sizing verdict and all manifest metadata is present.
 - [ ] No task requires an external lookup to understand its assignment.
+- [ ] Live-QA defects were handed to the harness via a guided prompt (evidence + root causes + verification gates), and independent V&V ran after the user confirmed the fixes.
