@@ -127,27 +127,27 @@
 
 ## 7. Architecture Diagrams
 
-> Output of Task 7. All diagrams are text-based (Mermaid).
+> Output of Task 7. All diagrams are self-contained HTML+CSS+SVG (`.html` files).
 
 ### 7.1 System Context Diagram (C4 Level 1)
 
-<Insert Mermaid C4Context diagram source>
+<Insert `context-diagram.html` — see `references/html-svg-diagramming.md` for scaffold and worked example>
 
 ### 7.2 Container Diagram (C4 Level 2)
 
-<Insert Mermaid C4Container diagram source>
+<Insert `container-diagram.html` — see `references/html-svg-diagramming.md` for scaffold and worked example>
 
 ### 7.3 Component Diagrams (C4 Level 3)
 
-<For each complex module, insert Mermaid C4Component diagram source>
+<For each complex module, insert `component-<module>.html` — see `references/html-svg-diagramming.md` for scaffold and worked example>
 
 ### 7.4 Deployment Diagram
 
-<Insert Mermaid C4Deployment diagram source>
+<Insert `deployment-diagram.html` — see `references/html-svg-diagramming.md` for scaffold and worked example>
 
 ### 7.5 Data Flow Diagram
 
-<Insert Mermaid flowchart showing data flow for primary use cases>
+<Insert `data-flow-diagram.html` — see `references/html-svg-diagramming.md` for scaffold and worked example>
 
 ---
 
@@ -198,6 +198,6 @@
 - [ ] Section 5 — Every technology decision has an ADR tracing to drivers
 - [ ] Section 6 — Every cross-cutting concern is addressed or marked N/A
 - [ ] Section 7 — Context, container, component, deployment, and data flow diagrams exist
-- [ ] Section 7 — All diagrams are text-based (Mermaid)
+- [ ] Section 7 — All diagrams are self-contained HTML+CSS+SVG (`.html` files)
 - [ ] Section 8 — Every module has a pass/fail verdict in the validation report
 - [ ] Section 9 — Feedback paths to Requirements Engineer and from Task Engineer are documented
