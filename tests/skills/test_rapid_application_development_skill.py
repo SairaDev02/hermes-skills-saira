@@ -1,4 +1,5 @@
 from pathlib import Path
+import re
 
 
 ROOT = Path(__file__).parents[2]
@@ -50,10 +51,15 @@ def test_role_indexes_reference_the_streamlined_skill():
     roles = ROLES.read_text(encoding="utf-8")
 
     assert "software-development/rapid-application-development/SKILL.md" in readme
-    assert "rapid-application-development" in readme
-    # RAD is governed separately and intentionally not covered by Roles.md.
-    assert "governed separately" in roles
-    assert "Role 7" not in roles
+    assert "governed separately" in readme
+
+    # Roles.md deliberately covers exactly the six lifecycle roles 1-6
+    # (Role 1 is an H2, Roles 2-6 are H3); RAD is governed separately and
+    # intentionally absent from the index.
+    assert "governed separately" not in roles
+    role_headers = re.findall(r"^#{2,3} Role (\d):", roles, flags=re.MULTILINE)
+    assert role_headers == ["1", "2", "3", "4", "5", "6"]
+    assert not re.search(r"rapid|rad\b|Role 7", roles, flags=re.IGNORECASE)
 
 
 def test_supporting_reference_is_present():
