@@ -1,14 +1,14 @@
 ---
 name: software-requirements-engineering
 description: Guide requirements from discovery through traceability.
-version: 0.2.0
+version: 0.2.1
 author: FerdinandM, Hermes Agent
 license: MIT
 platforms: [linux, macos, windows]
 metadata:
   hermes:
     tags: [requirements, engineering, specification, elicitation, srs, traceability]
-    related_skills: [software-architecture-design, qa-engineer]
+    related_skills: [software-architecture-design, qa-engineer, requirements-baseline-control]
 ---
 
 # Software Requirements Engineering Skill
