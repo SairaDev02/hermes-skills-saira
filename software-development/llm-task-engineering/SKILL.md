@@ -1,7 +1,7 @@
 ---
 name: llm-task-engineering
 description: Decompose architecture into self-contained task specs.
-version: 0.3.0
+version: 0.4.0
 author: FerdinandM, Hermes Agent
 license: MIT
 platforms: [linux, macos, windows]
@@ -68,6 +68,10 @@ Propagate cross-cutting conventions, then add task-specific constraints and chec
 
 Use `templates/task-entry.md`, `templates/task-manifest.md`, and `templates/dependency-dag.md` where present. Include manifest version, source artifact versions, target harness, context-window assumption, shared context blocks, task entries, module map, DAG, and generated bundle index. **Done when:** the normalized manifest and every generated bundle are complete, versioned, reproducible, and valid.
 
+### 9. Generate progress dashboard
+
+Create a self-contained HTML/CSS/JS dashboard file at `docs/task-engineering/dashboard/index.html` that tracks implementation progress. The dashboard is a single file with no server or build step — open it in any browser. It contains an embedded JavaScript `TASKS` array (one object per task) and an `INVARIANTS` array (architecture invariant checks). The coding agent updates these arrays after every verification check; no external data file is needed. See `references/progress-dashboard.md` for the full specification, including the task object schema, status lifecycle, invariant array schema, update protocol, and dashboard commit discipline. **Done when:** the dashboard file exists, renders correctly in a browser, and the HANDOFF documents the update protocol for the coding agent.
+
 ## Post-dispatch live-QA triage (role boundary)
 
 When the user reports defects from live testing of dispatched implementation work, the Task Engineer does NOT write fixes. The role is: diagnose, hand off, verify.
@@ -92,6 +96,7 @@ When the user reports defects from live testing of dispatched implementation wor
 | Acceptance | RTM-linked criteria |
 | Coordination | DAG and parallel waves |
 | Emission | Versioned manifest |
+| Tracking | Progress dashboard |
 
 ## Pitfalls
 
@@ -103,6 +108,7 @@ When the user reports defects from live testing of dispatched implementation wor
 - Over-decomposing small coherent changes into coordination overhead.
 - Updating the architecture or SRS without regenerating affected task entries.
 - Fixing live-QA defects directly instead of handing them to the coding harness — the Task Engineer diagnoses and verifies, the harness edits code.
+- Forgetting to generate the progress dashboard or document its update protocol in the HANDOFF — the coding agent needs explicit instructions on when and how to update task status and invariant checks.
 
 ## Verification
 
@@ -116,4 +122,7 @@ When the user reports defects from live testing of dispatched implementation wor
 - [ ] Constraints are consistent with cross-cutting architecture rules.
 - [ ] Each task has a sizing verdict and all manifest metadata is present.
 - [ ] No task requires an external lookup to understand its assignment.
+- [ ] A self-contained progress dashboard exists at `docs/task-engineering/dashboard/index.html` and renders in a browser.
+- [ ] The HANDOFF documents the dashboard update protocol (when to update, which fields to edit, commit discipline).
+- [ ] The dashboard's TASKS and INVARIANTS arrays cover all manifest tasks and architecture invariant checks.
 - [ ] Live-QA defects were handed to the harness via a guided prompt (evidence + root causes + verification gates), and independent V&V ran after the user confirmed the fixes.
