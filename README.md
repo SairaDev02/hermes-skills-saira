@@ -2,8 +2,8 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Built for Hermes Agent](https://img.shields.io/badge/Hermes-Agent-blue)](https://hermes-agent.nousresearch.com/docs)
-[![Skills: 7](https://img.shields.io/badge/Skills-7-green)](#skills)
-[![Docs-only: 6 of 7](https://img.shields.io/badge/Docs--only-6_of_7-lightgrey)](#documentation-only-principle)
+[![Skills: 8](https://img.shields.io/badge/Skills-8-green)](#skills)
+[![Docs-only: 7 of 8](https://img.shields.io/badge/Docs--only-7_of_8-lightgrey)](#documentation-only-principle)
 
 A collection of [Hermes Agent](https://hermes-agent.nousresearch.com/docs) skills covering the software-development lifecycle, from requirements through release. Each skill guides a specialist role's thinking and writing; the roles hand work to each other through versioned document packages, never through hallway conversation.
 
@@ -11,7 +11,7 @@ A collection of [Hermes Agent](https://hermes-agent.nousresearch.com/docs) skill
 
 ## Documentation-Only Principle
 
-Six of the seven skills are strictly documentation-only: they produce specifications, plans, reports, and evidence records. They may contain pseudocode and Mermaid/PlantUML diagrams, but they do not write or execute application code, tests, CI/CD configuration, deployment scripts, or operational commands — and they never claim execution without harness evidence. From `docs/PROJECT-CONSTITUTION.md`: an unverified claim is a finding, not a result.
+Seven of the eight skills are strictly documentation-only: they produce specifications, plans, reports, and evidence records. They may contain pseudocode and Mermaid/PlantUML diagrams, but they do not write or execute application code, tests, CI/CD configuration, deployment scripts, or operational commands — and they never claim execution without harness evidence. From `docs/PROJECT-CONSTITUTION.md`: an unverified claim is a finding, not a result.
 
 The sole exception is [Rapid Application Development](software-development/rapid-application-development/SKILL.md), a cross-cutting iterative-delivery role whose own skill defines its separate operating boundary. It is intentionally **not** a numbered row in `Roles.md`.
 
@@ -44,7 +44,7 @@ Installed skills take effect in new sessions — run `/reset` or start a fresh s
 hermes skills install SairaDev02/hermes-skills-saira/software-development/qa-engineer --category software-development
 ```
 
-Replace `qa-engineer` with any role directory: `software-requirements-engineering`, `software-architecture-design`, `llm-task-engineering`, `code-reviewer`, `devops-release-engineer`, `rapid-application-development`.
+Replace `qa-engineer` with any role directory: `software-requirements-engineering`, `requirements-baseline-control`, `software-architecture-design`, `llm-task-engineering`, `code-reviewer`, `devops-release-engineer`, `rapid-application-development`.
 
 **All roles via tap** (subscribe once, then install/search by name). Note: this repo keeps roles under `software-development/`, not the default `skills/` tap path — after adding the tap, point it at the right subtree in `~/.hermes/skills/.hub/taps.json`:
 
@@ -70,7 +70,7 @@ mkdir -p ~/.hermes/skills/software-development
 cp -r hermes-skills-saira/software-development/qa-engineer ~/.hermes/skills/software-development/qa-engineer/
 ```
 
-Repeat the `cp` per role, or copy the whole `software-development/` tree for all seven. Two variants:
+Repeat the `cp` per role, or copy the whole `software-development/` tree for all eight. Two variants:
 
 - **Live off your checkout** instead of copying: add it under `skills:` in `~/.hermes/config.yaml` via `hermes config set`, so edits are picked up without re-copying:
   ```yaml
@@ -93,8 +93,9 @@ Then in chat: `/qa-engineer <your task>` — every installed role is automatical
 | # | Skill | Role | Stage | Produces (documents only) |
 |---|---|---|---|---|
 | 1 | [software-requirements-engineering](software-development/software-requirements-engineering/SKILL.md) | Requirements Engineer | Start | SRS, RTM, feasibility decision, validation and change records |
+| — | [requirements-baseline-control](software-development/requirements-baseline-control/SKILL.md) | Requirements Baseline Controller | Start (companion) | Evidence provenance classification, feasibility/stakeholder gap records, SRS + RTM construction, deterministic traceability checks |
 | 2 | [software-architecture-design](software-development/software-architecture-design/SKILL.md) | Architect | Design | Architecture baseline, ADRs, module boundaries, interface contracts, diagrams |
-| 3 | [llm-task-engineering](software-development/llm-task-engineering/SKILL.md) | Task Engineer | Dispatch | Normalized task manifest plus self-contained dispatch bundles |
+| 3 | [llm-task-engineering](software-development/llm-task-engineering/SKILL.md) | Task Engineer | Dispatch | Normalized task manifest, self-contained dispatch bundles, and a self-contained progress dashboard |
 | 4 | [qa-engineer](software-development/qa-engineer/SKILL.md) | Tester / QA Engineer | Verification | Test plans, cases, fixture and execution specs, bug and coverage reports |
 | 5 | [code-reviewer](software-development/code-reviewer/SKILL.md) | Code Reviewer | Gate | Review evidence, findings, comments, and gate verdict |
 | 6 | [devops-release-engineer](software-development/devops-release-engineer/SKILL.md) | DevOps / Release Engineer | Release | CI/CD, environment, release, monitoring, and rollback specifications |
@@ -156,7 +157,7 @@ Each arrow carries a versioned package using the shared [handoff template](templ
 software-development/<role>/
   SKILL.md          # role contract: tasks, completion criteria, verification
   references/       # technique guidance (checklists, methods, design notes)
-  templates/        # output shapes (present in all roles except RAD)
+  templates/        # output shapes (present in all roles except RAD and requirements-baseline-control)
 templates/
   HANDOFF.md
   feedback-record.yaml
